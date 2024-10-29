@@ -1,4 +1,3 @@
-main: main.c 
 CC = gcc
 CFLAGS = -Wall -I.
 LDFLAGS =
@@ -8,7 +7,7 @@ TARGET = main
 all: $(TARGET)
 
 $(TARGET): $(OBJFILES)
-$(CC) $(CFLAGS) -o $(TARGET) $(OBJFILES) $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJFILES) $(LDFLAGS)
 
-Clean:
+clean:
 	rm -f $(OBJFILES) $(TARGET) *~
