@@ -5,9 +5,11 @@
 #include <ctype.h>
 
 #define MAX_LINE_LENGTH  200
+#define MAX_LABEL_LENGTH (MAX_LINE_LENGTH - 2)
 
 void parse(FILE *file) {
     char line[MAX_LINE_LENGTH];
+    char label[MAX_LABEL_LENGTH]; // buffer for extracted label
 
     while (fgets(line, MAX_LINE_LENGTH, file)) {
         strip(line);
@@ -19,12 +21,14 @@ void parse(FILE *file) {
         if (is_Atype(line)) {
             printf("A  %s\n", line);
         } else if (is_label(line)) {
-            printf("L  %s\n", line);
+            extract_label(line, label);  // Extracts label without parentheses
+            printf("L  (%s)\n", label);  // Print label with parentheses
         } else if (is_Ctype(line)) {
             printf("C  %s\n", line);
         }
     }
-} // Added closing brace for parse function
+}
+
 
 char *strip(char *s) {
     char s_new[MAX_LINE_LENGTH + 1];
@@ -69,10 +73,10 @@ bool is_Ctype(const char *line) {
 
 char *extract_label(const char *line, char* label) {
     int i = 0;
-    while (line[i + 1] != ')') {
+    while (line[i + 1]) {
         label[i] = line[i + 1];
         i++;
     }
-    label[i] = '\0'; 
+    label[i] = '\0';  
     return label;
 }
