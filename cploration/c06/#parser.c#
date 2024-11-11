@@ -9,7 +9,7 @@
 
 void parse(FILE *file) {
     char line[MAX_LINE_LENGTH];
-    char label[MAX_LABEL_LENGTH];
+    char label[MAX_LABEL_LENGTH]; // buffer for extracted label
 
     while (fgets(line, MAX_LINE_LENGTH, file)) {
         strip(line);
@@ -21,17 +21,13 @@ void parse(FILE *file) {
         if (is_Atype(line)) {
             printf("A  %s\n", line);
         } else if (is_label(line)) {
-            extract_label(line, label);
-            strcpy(line, label);
-            printf("L  %s\n", line);
+            extract_label(line, label);  // Extracts label without parentheses
+            printf("L  (%s)\n", label);  // Print label with parentheses
         } else if (is_Ctype(line)) {
             printf("C  %s\n", line);
-        } else {
-            printf("Unknown instruction type: %s\n", line);
         }
     }
 }
-
 
 
 char *strip(char *s) {
@@ -76,11 +72,12 @@ bool is_Ctype(const char *line) {
 }
 
 char *extract_label(const char *line, char *label) {
-    int len = strlen(line);
-    if (line[0] == '(' && line[len - 1] == ')') {
-        strncpy(label, line + 1, len - 2);
-        label[len - 2] = '\0'; 
+    int i = 1, j = 0;
+    label[j++] = '(';
+    while (line[i] != ')' && line[i] != '\0') {
+        label[j++] = line[i++];
     }
+    label[j++] = ')';
+    label[j] = '\0';
     return label;
 }
-
