@@ -66,3 +66,13 @@ bool is_Ctype(const char *line) {
         return false;
     }
 }
+
+char *extract_label(const char *line, char* label) {
+    int i = 0;
+    while (line[i + 1] != ')') {
+        label[i] = line[i + 1];
+        i++;
+    }
+    label[i] = '\0'; 
+    return label;
+}
