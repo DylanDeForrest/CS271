@@ -23,3 +23,4 @@ hack.o: hack.c hack.h
 
 clean:
 	rm -f *.o assembler
+
